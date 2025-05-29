@@ -3,7 +3,7 @@
 This repository contains an OpenAPI 3.0 specification for a simple **To-Do App API**, created live using **Cursor AI**.
 
 > 📺 This spec was generated during a live stream on the [MuleSoft Community Twitch channel](https://www.twitch.tv/mulesoft_community).  
-> 📌 The session will also be available on the [MuleSoft YouTube channel](https://www.youtube.com/@MuleSoftCommunity).
+> 📌 Watch the full recording [here](https://www.youtube.com/@mulesoftvids/videos).
 
 ## 📋 Cursor AI Design Rules
 
