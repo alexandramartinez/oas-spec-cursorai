@@ -1,0 +1,11 @@
+{
+  "main": "to-do-app.yaml",
+  "name": "To Do App",
+  "classifier": "oas",
+  "organizationId": "",
+  "descriptorVersion": "1.0.0",
+  "tags": [],
+  "groupId": "",
+  "assetId": "to-do-app",
+  "version": "1.0.0"
+}

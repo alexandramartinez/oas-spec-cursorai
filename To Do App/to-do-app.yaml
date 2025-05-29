@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+    version: 1.0.0
+    title: To Do App
+    description: API for managing todo tasks
+
+paths:
+    /todos:
+        get:
+            summary: List all todos
+            description: Retrieve a list of all todo tasks
+            operationId: listTodos
+            responses:
+                '200':
+                    description: A list of todos
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Todo'
+        post:
+            summary: Create a new todo
+            description: Create a new todo task
+            operationId: createTodo
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/TodoInput'
+            responses:
+                '201':
+                    description: Todo created successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                '400':
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+
+    /todos/{todoId}:
+        parameters:
+            - name: todoId
+              in: path
+              required: true
+              schema:
+                type: string
+              description: ID of the todo task
+              example: 123e4567-e89b-12d3-a456-426614174000
+        get:
+            summary: Get a todo by ID
+            description: Retrieve a specific todo task by its ID
+            operationId: getTodo
+            responses:
+                '200':
+                    description: Todo found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                '404':
+                    description: Todo not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        put:
+            summary: Update a todo
+            description: Update an existing todo task
+            operationId: updateTodo
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/TodoInput'
+            responses:
+                '200':
+                    description: Todo updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Todo'
+                '404':
+                    description: Todo not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                '400':
+                    description: Invalid input
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        delete:
+            summary: Delete a todo
+            description: Delete a todo task
+            operationId: deleteTodo
+            responses:
+                '204':
+                    description: Todo deleted successfully
+                '404':
+                    description: Todo not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+
+components:
+    schemas:
+        Todo:
+            type: object
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    description: Unique identifier for the todo
+                    example: 123e4567-e89b-12d3-a456-426614174000
+                title:
+                    type: string
+                    description: Title of the todo task
+                    example: Buy groceries
+                description:
+                    type: string
+                    description: Detailed description of the todo task
+                    example: Get milk, eggs, and bread
+                completed:
+                    type: boolean
+                    description: Status of the todo task
+                    example: false
+            required:
+                - id
+                - title
+                - completed
+            example:
+                id: 123e4567-e89b-12d3-a456-426614174000
+                title: Buy groceries
+                description: Get milk, eggs, and bread
+                completed: false
+
+        TodoInput:
+            type: object
+            properties:
+                title:
+                    type: string
+                    description: Title of the todo task
+                    example: Schedule dentist appointment
+                description:
+                    type: string
+                    description: Detailed description of the todo task
+                    example: Call Dr. Smith's office to book annual checkup
+                completed:
+                    type: boolean
+                    description: Status of the todo task
+                    example: false
+                    default: false
+            required:
+                - title
+            example:
+                title: Schedule dentist appointment
+                description: Call Dr. Smith's office to book annual checkup
+                completed: false
+
+        Error:
+            type: object
+            properties:
+                error:
+                    type: string
+            required:
+                - error
+            example:
+                error: whatever error happened.

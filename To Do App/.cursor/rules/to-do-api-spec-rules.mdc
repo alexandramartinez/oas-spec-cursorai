@@ -1,0 +1,53 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cursor Rules for To-Do App OpenAPI Design
+
+## 1. Schema Placement
+- **All schemas** (including error schemas) must be defined under `components.schemas` in the OpenAPI YAML.
+- **No inline schemas** in endpoint responses, request bodies, or parameters. Always use `$ref` to reference schemas.
+
+## 2. Example Usage
+- **Examples** should only be defined in the schema definitions under `components.schemas`.
+- Do **not** duplicate examples in endpoint responses, request bodies, or parameters.
+- For array examples, use YAML list syntax with dashes on their own line for readability.
+- For path parameters, provide an `example` value directly in the parameter definition.
+
+## 3. Error Handling
+- Define a single `Error` schema under `components.schemas`:
+  ```yaml
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+    required:
+      - error
+    example:
+      error: whatever error happened.
+  ```
+- Reference this schema in all error responses using `$ref`.
+
+## 4. PUT vs PATCH
+- **PUT** is used for full resource replacement. The request body should match the resource schema (except for `id`, which is in the path).
+- **PATCH** is used for partial updates. The request body schema should have all fields optional.
+- For this to-do app, use `PUT` for full updates and consider adding `PATCH` for partial updates if needed.
+
+## 5. Request/Response Body Design
+- For `POST` and `PUT`, use a schema (e.g., `TodoInput`) that does **not** include the `id` field. The `id` is always taken from the path parameter for updates.
+- For `GET` and response bodies, use the full `Todo` schema (including `id`).
+
+## 6. Boolean and Data Types
+- Use native YAML/JSON types in examples (e.g., `completed: true`, not `"true"`).
+- Do not wrap UUIDs or booleans in quotes in examples.
+
+## 7. General OpenAPI Conventions
+- Always provide a `description` for endpoints, parameters, and schema properties.
+- Use `operationId` for each operation.
+- Keep the OpenAPI YAML clean and DRY (Don't Repeat Yourself).
+
+---
+
+_This file documents the OpenAPI and RESTful API conventions and best practices for this repository. Follow these rules for all future API design and documentation work in this project._ 
